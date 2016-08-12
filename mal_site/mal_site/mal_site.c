@@ -73,8 +73,10 @@ int main() {
 	unsigned char		url[256] = { 0, };
 	int					i = 0;
 	FILE *				fp;
+	FILE *				fp_log;
 	
 	fp = fopen("C:\\mal_site.txt", "r");
+	fp_log = fopen("mal_log.txt", "a+");
 
 	windivert_handle = WinDivertOpen("tcp.DstPort == 80 or tcp.SrcPort == 80", 0, 0, 0);
 
@@ -108,6 +110,7 @@ int main() {
 						
 						if (MalSiteCmp(fp, url)) {	//if TRUE, mal site detected	
 							printf("[BLOCKED] url : %s\n", url);
+							fprintf(fp_log, "%s\n", url);
 							continue;
 						}
 					}
